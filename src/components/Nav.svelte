@@ -1,60 +1,88 @@
 <script>
-	export let segment;
+  export let segment;
 </script>
 
 <style>
-	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
-		font-weight: 300;
-		padding: 0 1em;
-	}
+  nav {
+    background: var(--sec-gradient);
+    color: var(--primary);
+    height: 80px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
 
-	ul {
-		margin: 0;
-		padding: 0;
-	}
+  ul {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0 auto;
+    padding: 0;
+  }
 
-	/* clearfix */
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+  li {
+    display: block;
+    width: 33.33%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+  }
 
-	li {
-		display: block;
-		float: left;
-	}
-
-	.selected {
+  a {
+    text-decoration: none;
+    display: block;
+		opacity: 0.55;
 		position: relative;
-		display: inline-block;
+		top: 4px;
+	}
+	
+	a:last-child {
+		position: relative;
+		top: -4px;
 	}
 
-	.selected::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255,62,0);
-		display: block;
-		bottom: -1px;
-	}
-
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
+  .selected {
+    position: relative;
+    display: inline-block;
+		opacity: 1;
+		text-shadow: 0 0 5px white;
+		font-weight: bolder;
+  }
 </style>
 
 <nav>
-	<ul>
-		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>home</a></li>
-		<li><a class='{segment === "about" ? "selected" : ""}' href='about'>about</a></li>
+  <ul>
+    <li>
+      <a class={segment === undefined ? 'selected' : ''} href=".">
+        <img alt="vote" src="icons/vote.png" />
+      </a>
+      <a class={segment === undefined ? 'selected' : ''} href=".">home</a>
+    </li>
+    <li>
+      <a class={segment === 'about' ? 'selected' : ''} href="about">
+				<img alt="monitor" src="icons/donut.png" />
+			</a>
+      <a class={segment === 'about' ? 'selected' : ''} href="about">about</a>
+    </li>
 
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
+    <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch class='{segment === "blog" ? "selected" : ""}' href='blog'>blog</a></li>
-	</ul>
+    <li>
+      <a
+        rel="prefetch"
+        class={segment === 'blog' ? 'selected' : ''}
+        href="blog">
+        <img alt="achievements" src="icons/trophy.png" />
+      </a>
+      <a
+        rel="prefetch"
+        class={segment === 'blog' ? 'selected' : ''}
+        href="blog">
+        blog
+      </a>
+    </li>
+  </ul>
 </nav>

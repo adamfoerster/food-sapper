@@ -49,7 +49,7 @@ const createStore = () => {
       firebase
         .auth()
         .signInWithRedirect(provider)
-        .then(result => {})
+        .then(result => { })
         .catch(error => {
           showErrorMessage(error.message, error.code);
         });
@@ -77,4 +77,4 @@ const checkRedirectResult = () => {
     });
 };
 
-export const login = () => {};
+export const login = () => { };

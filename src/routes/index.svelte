@@ -11,7 +11,6 @@
     fb.user$(u => (user = u));
     fb.db$(d => {
       db = d;
-      console.log("here");
       db.collection("todos")
         .get()
         .then(querySnapshot => {

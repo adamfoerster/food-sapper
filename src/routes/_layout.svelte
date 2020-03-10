@@ -7,16 +7,17 @@
 <style>
 	main {
 		position: relative;
+		height: 100vh;
 		max-width: 56em;
-		background-color: white;
+		background: var(--pri-gradient);
 		padding: 2em;
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
 </style>
 
-<Nav {segment}/>
-
 <main>
 	<slot></slot>
 </main>
+
+<Nav {segment}/>

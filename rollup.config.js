@@ -9,9 +9,9 @@ import pkg from "./package.json";
 import typescript from "rollup-plugin-typescript2";
 
 import {
-    preprocess,
-    createEnv,
-    readConfigFile
+  preprocess,
+  createEnv,
+  readConfigFile
 } from "@pyoner/svelte-ts-preprocess";
 
 const production = !process.env.ROLLUP_WATCH;
@@ -19,11 +19,11 @@ const production = !process.env.ROLLUP_WATCH;
 const env = createEnv();
 const compilerOptions = readConfigFile(env);
 const opts = {
-    env,
-    compilerOptions: {
-        ...compilerOptions,
-        allowNonTsExtensions: true
-    }
+  env,
+  compilerOptions: {
+    ...compilerOptions,
+    allowNonTsExtensions: true
+  }
 };
 
 const mode = process.env.NODE_ENV;
@@ -31,102 +31,102 @@ const dev = mode === "development";
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 const onwarn = (warning, onwarn) =>
-    (warning.code === "CIRCULAR_DEPENDENCY" &&
-        /[/\\]@sapper[/\\]/.test(warning.message)) ||
-    onwarn(warning);
+  (warning.code === "CIRCULAR_DEPENDENCY" &&
+    /[/\\]@sapper[/\\]/.test(warning.message)) ||
+  onwarn(warning);
 
 export default {
-    client: {
-        input: config.client.input(),
-        output: config.client.output(),
-        plugins: [
-            replace({
-                "process.browser": true,
-                "process.env.NODE_ENV": JSON.stringify(mode)
-            }),
-            svelte({
-                dev,
-                hydratable: true,
-                emitCss: true,
-                preprocess: preprocess(opts)
-            }),
-            resolve({
-                browser: true
-            }),
-            commonjs(),
-            typescript(),
+  client: {
+    input: config.client.input(),
+    output: config.client.output(),
+    plugins: [
+      replace({
+        "process.browser": true,
+        "process.env.NODE_ENV": JSON.stringify(mode)
+      }),
+      svelte({
+        dev,
+        hydratable: true,
+        emitCss: true,
+        preprocess: preprocess(opts)
+      }),
+      resolve({
+        browser: true
+      }),
+      commonjs(),
+      typescript(),
 
-            legacy &&
-                babel({
-                    extensions: [".js", ".mjs", ".html", ".svelte"],
-                    runtimeHelpers: true,
-                    exclude: ["node_modules/@babel/**"],
-                    presets: [
-                        [
-                            "@babel/preset-env",
-                            {
-                                targets: "> 0.25%, not dead"
-                            }
-                        ]
-                    ],
-                    plugins: [
-                        "@babel/plugin-syntax-dynamic-import",
-                        [
-                            "@babel/plugin-transform-runtime",
-                            {
-                                useESModules: true
-                            }
-                        ]
-                    ]
-                }),
+      legacy &&
+        babel({
+          extensions: [".js", ".mjs", ".html", ".svelte"],
+          runtimeHelpers: true,
+          exclude: ["node_modules/@babel/**"],
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: "> 0.25%, not dead"
+              }
+            ]
+          ],
+          plugins: [
+            "@babel/plugin-syntax-dynamic-import",
+            [
+              "@babel/plugin-transform-runtime",
+              {
+                useESModules: true
+              }
+            ]
+          ]
+        }),
 
-            !dev &&
-                terser({
-                    module: true
-                })
-        ],
+      !dev &&
+        terser({
+          module: true
+        })
+    ],
 
-        onwarn
-    },
+    onwarn
+  },
 
-    server: {
-        input: config.server.input(),
-        output: config.server.output(),
-        plugins: [
-            replace({
-                "process.browser": false,
-                "process.env.NODE_ENV": JSON.stringify(mode)
-            }),
-            svelte({
-                generate: "ssr",
-                dev,
-                preprocess: preprocess(opts)
-            }),
-            resolve(),
-            commonjs(),
-            typescript()
-        ],
-        external: Object.keys(pkg.dependencies).concat(
-            require("module").builtinModules ||
-                Object.keys(process.binding("natives"))
-        ),
+  server: {
+    input: config.server.input(),
+    output: config.server.output(),
+    plugins: [
+      replace({
+        "process.browser": false,
+        "process.env.NODE_ENV": JSON.stringify(mode)
+      }),
+      svelte({
+        generate: "ssr",
+        dev,
+        preprocess: preprocess(opts)
+      }),
+      resolve(),
+      commonjs(),
+      typescript()
+    ],
+    external: Object.keys(pkg.dependencies).concat(
+      require("module").builtinModules ||
+        Object.keys(process.binding("natives"))
+    ),
 
-        onwarn
-    },
+    onwarn
+  },
 
-    serviceworker: {
-        input: config.serviceworker.input(),
-        output: config.serviceworker.output(),
-        plugins: [
-            resolve(),
-            replace({
-                "process.browser": true,
-                "process.env.NODE_ENV": JSON.stringify(mode)
-            }),
-            commonjs(),
-            !dev && terser()
-        ],
+  serviceworker: {
+    input: config.serviceworker.input(),
+    output: config.serviceworker.output(),
+    plugins: [
+      resolve(),
+      replace({
+        "process.browser": true,
+        "process.env.NODE_ENV": JSON.stringify(mode)
+      }),
+      commonjs(),
+      !dev && terser()
+    ],
 
-        onwarn
-    }
+    onwarn
+  }
 };
