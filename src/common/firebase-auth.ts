@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { showErrorMessage } from "./common";
-import { writable, get } from "svelte/store";
+import { writable } from "svelte/store";
 
 let globalStore: any = null;
 
@@ -49,7 +49,7 @@ const createStore = () => {
       firebase
         .auth()
         .signInWithRedirect(provider)
-        .then(result => { })
+        .then(() => {})
         .catch(error => {
           showErrorMessage(error.message, error.code);
         });
@@ -77,4 +77,4 @@ const checkRedirectResult = () => {
     });
 };
 
-export const login = () => { };
+export const login = () => {};
