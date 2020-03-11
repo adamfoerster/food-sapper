@@ -34,22 +34,22 @@
   a {
     text-decoration: none;
     display: block;
-		opacity: 0.55;
-		position: relative;
-		top: 4px;
-	}
-	
-	a:last-child {
-		position: relative;
-		top: -4px;
-	}
+    opacity: 0.55;
+    position: relative;
+    top: 4px;
+  }
+
+  a:last-child {
+    position: relative;
+    top: -4px;
+  }
 
   .selected {
     position: relative;
     display: inline-block;
-		opacity: 1;
-		text-shadow: 0 0 5px white;
-		font-weight: bolder;
+    opacity: 1;
+    text-shadow: 0 0 5px white;
+    font-weight: bolder;
   }
 </style>
 
@@ -63,8 +63,8 @@
     </li>
     <li>
       <a class={segment === 'about' ? 'selected' : ''} href="about">
-				<img alt="monitor" src="icons/donut.png" />
-			</a>
+        <img alt="monitor" src="icons/donut.png" />
+      </a>
       <a class={segment === 'about' ? 'selected' : ''} href="about">about</a>
     </li>
 
