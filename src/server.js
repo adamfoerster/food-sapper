@@ -2,7 +2,11 @@ import sirv from 'sirv';
 import polka from 'polka';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
-
+// global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+// if (typeof localStorage === "undefined" || localStorage === null) {
+// 	var LocalStorage = require('node-localstorage').LocalStorage;
+// 	global.localStorage = new LocalStorage('./scratch');
+// }
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 

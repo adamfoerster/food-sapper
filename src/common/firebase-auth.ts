@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { showErrorMessage } from "./common";
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 
 let globalStore: any = null;
 
@@ -32,6 +32,7 @@ const createStore = () => {
 
     setDB: (createdDB: any) => db.set(createdDB),
     setUser: (createdUser: any) => user.set(createdUser),
+    getDB: () => get(db),
     logout: () => {
       localStorage.removeItem("user");
       localStorage.removeItem("credential");
