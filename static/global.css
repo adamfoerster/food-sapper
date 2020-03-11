@@ -52,6 +52,25 @@ button {
   justify-content: center;
 }
 
+button.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+button.black {
+  background-color: black;
+  color: white;
+}
+
+input, input[type=text] {
+  border: none;
+  border-radius: .5rem;
+  padding: .33rem 1rem;
+  width: fit-content;
+  width: -webkit-fill-available;
+  margin: .5rem 0;
+}
+
 .card {
   box-sizing: border-box;
   background-color: var(--secondary);
@@ -61,7 +80,20 @@ button {
   width: 100%;
   border-radius: 1rem;
 }
-
+.form-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% auto;
+}
+.form-grid label, input {
+  align-self: center;
+  justify-self: start;
+}
+.action {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+}
 ::-webkit-scrollbar {
   width: 10px;
   border-radius: .5rem;

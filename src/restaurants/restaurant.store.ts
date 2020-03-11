@@ -28,7 +28,9 @@ const createRestaurantStore = () => {
     selectedRestaurant$: restaurants.subscribe,
     getRestaurant: _getRestaurant,
     listAllRestaurants: async (companyId: string) => {
-      const restaurantsCol = await _restaurantsCollection.get();
+      const restaurantsCol = await _restaurantsCollection
+        .where("company", "==", "bari")
+        .get();
       let rests: IRestaurant[] = [];
       for (let snapshot of restaurantsCol.docs) {
         rests.push(await _getRestaurant(snapshot.id));
