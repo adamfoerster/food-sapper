@@ -1,16 +1,28 @@
 <script>
   import Nav from "../components/Nav.svelte";
+  import Snackbar from "../components/Snackbar.svelte";
   import { onMount } from "svelte";
   import { getFirebase } from "../common/firebase-auth";
+  import { snackStore } from "../common/common";
 
   export let segment;
 
   let fb;
   let user;
+  let snackbar;
+  let showSnack = false;
 
   onMount(() => {
     fb = getFirebase();
     fb.user$(u => (user = u));
+    const snack = snackStore();
+    snack.alert$(alert => {
+      snackbar = alert;
+      showSnack = true;
+      const duration = snackbar && snackbar.duration ? snackbar.duration : 3000;
+      setTimeout(() => (showSnack = false), duration);
+    });
+    // snack.danger$();
   });
 
   const logout = () => fb.logout();
@@ -61,4 +73,7 @@
 </main>
 {#if user}
   <Nav {segment} />
+{/if}
+{#if showSnack}
+  <Snackbar {...snackbar} />
 {/if}

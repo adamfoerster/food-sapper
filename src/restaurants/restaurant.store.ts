@@ -1,4 +1,4 @@
-import { writable, get } from "svelte/store";
+import { writable, get, Writable } from "svelte/store";
 import { getFirebase } from "../common/firebase-auth";
 import { IRestaurant } from "./restaurant.interfaces";
 
@@ -14,7 +14,14 @@ export const getRestaurantStore = () => {
 };
 
 const createRestaurantStore = () => {
-  const restaurants = writable([]);
+  const restaurants: Writable<IRestaurant[]> = writable([]);
+  const _selectedRestaurant: Writable<IRestaurant> = writable({
+    id: null,
+    name: "",
+    address: "",
+    enabled: true,
+    company: "bari"
+  });
   _db = getFirebase().getDB();
   _restaurantsCollection = _db.collection("restaurants");
 
@@ -25,8 +32,12 @@ const createRestaurantStore = () => {
 
   return {
     restaurants$: restaurants.subscribe,
-    selectedRestaurant$: restaurants.subscribe,
+    selectedRestaurant$: _selectedRestaurant.subscribe,
     getRestaurant: _getRestaurant,
+    selectRestaurant: (restaurant: IRestaurant) => {
+      console.log(restaurant);
+      _selectedRestaurant.set(restaurant);
+    },
     listAllRestaurants: async (companyId: string) => {
       const restaurantsCol = await _restaurantsCollection
         .where("company", "==", "bari")
@@ -37,8 +48,20 @@ const createRestaurantStore = () => {
       }
       restaurants.set(rests);
     },
-    addRestaurant: (restaurant: IRestaurant) => {},
-    editRestaurant: (id: string, restaurant: IRestaurant) => {},
+    addRestaurant: async (restaurant: IRestaurant) => {
+      await _restaurantsCollection.add({
+        ...restaurant,
+        enabled: true,
+        company: "bari"
+      });
+      return true;
+    },
+    editRestaurant: async (restaurant: IRestaurant) => {
+      await _restaurantsCollection
+        .doc(restaurant.id)
+        .set({ ...restaurant, enabled: true, company: "bari" });
+      return true;
+    },
     removeRestaurant: (id: string) => {}
   };
 };
